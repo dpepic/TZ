@@ -1,0 +1,30 @@
++U dropdownu, kada korisnik klikne 
+na njega, izracuna se vremenska razlika za svaku zonu i prikaze uz
+zonu
+
++Pri startanju, aplikacija
+zgrabi trenutno vreme i podesi
+slajder
+
++Dropdown sa listom vremenskih zona
+
++Kada se zona selektuje, pojavi
+se jos jedna rucica na slajderu
+koja pokazuje vreme u toj zoni
++Unutar sata se takodje prikazuje
+vreme te vremenske zone
+
++Prilikom micanja bilo koje od 
+rucica, obe se sinhrono pomeraju
+
++Tapkanjem sredine slajdera vracamo 
+vreme na trenutno
+
++Pritiskom na + uzima se trenutno vreme i pokrece se aktivnost u kojoj korisnik daje naslov i opsiuje reminder. Takodje, treba uneti datum. 
+
++Imamo listu rimajndera, dugo drzanje na jednom treba da ponudi brisanje, kratak pritisak vodi na aktivnost koja prikazuje rimajnder
+
++Imamo navigacinon dugme koje prikazuje popup koji vodi ka ostalim aktivnostima unutar programa
+
+
+
