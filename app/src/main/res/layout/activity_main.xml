@@ -26,8 +26,12 @@
         android:layout_marginTop="117dp"
         app:cs_circle_progress_color = "@color/colorAccent"
         app:cs_circle_color = "@color/colorAccent"
-        app:cs_circle_style = "butt"
-
+        app:cs_circle_style = "round"
+        app:cs_circle_stroke_width = "4dp"
+        app:cs_pointer_stroke_width = "24dp"
+        app:cs_pointer_halo_width = "0dp"
+        app:cs_pointer_halo_border_width = "0dp"
+        app:cs_disable_progress_glow = "true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
