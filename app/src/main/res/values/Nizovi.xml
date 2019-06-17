@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="imena">
+        <item>"Jedan"</item>
+        <item>"Dva"</item>
+        <item>"Tri"</item>
+        <item>"Cetiri"</item>
+    </array>
+    <array name="offset">
+        <item>60</item>
+        <item>45</item>
+        <item>90</item>
+        <item>50</item>
+    </array>
+</resources>
