@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.DataSetObserver;
 import android.renderscript.Sampler;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.util.TimeUtils.*;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,9 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -31,11 +35,29 @@ public class MainActivity extends AppCompatActivity {
 
     String[] vremenske;
     int[] off;
+    int offsetThumb = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CircularSeekBar sbar = findViewById(R.id.cs2);
+
+        GregorianCalendar tst = new GregorianCalendar();
+        sbar.setProgress(tst.get(GregorianCalendar.HOUR_OF_DAY) * 60
+                          + tst.get(GregorianCalendar.MINUTE));
+
+        int testSplit = (int) sbar.getProgress();
+
+        int tBase = (testSplit / 15) * 15;
+        if (testSplit % 15 > 7)
+            tBase += 15;
+
+        int sati = tBase / 60;
+        int minute = tBase % 60;
+        TextView tv = findViewById(R.id.textView);
+        tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
 
         Set<String> testSet = new HashSet<String>();
         //Set je slican vektoru i steku, sa tim da set nece
@@ -58,14 +80,16 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item, vremenske);
 
-
         dropDown.setAdapter(adapter);
         dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
-                TextView tv = findViewById(R.id.textView);
-                tv.setText(String.valueOf(off[i]));
+
+                offsetThumb = off[i];
+                CircularSeekBar cs1 = findViewById(R.id.cs1);
+                CircularSeekBar cs = findViewById(R.id.cs2);
+                cs1.setProgress(cs.getProgress() + off[i]);
             }
 
             @Override
@@ -74,14 +98,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         CircularSeekBar cb = findViewById(R.id.cs2);
 
         cb.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar cs, float progress, boolean fromUser) {
+                Log.wtf("ss", "asdasd");
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
-                cs1.setProgress(cs.getProgress() + 15);
+                cs1.setProgress(cs.getProgress() + offsetThumb);
                 TextView tv = findViewById(R.id.textView);
 
                 String tst = String.valueOf((int) progress);
@@ -93,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
                 int sati = tBase / 60;
                 int minute = tBase % 60;
-
 
                 tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
 
@@ -109,12 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
-
-
-
 
     public void klik(View s) {
 
@@ -125,6 +143,4 @@ public class MainActivity extends AppCompatActivity {
         cs.setProgress(10);
 
     }
-
-
 }

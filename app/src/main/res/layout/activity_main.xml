@@ -22,7 +22,7 @@
 
     <me.tankery.lib.circularseekbar.CircularSeekBar
         android:id="@+id/cs1"
-        app:cs_max = "720"
+        app:cs_max = "1440"
         android:layout_width="284dp"
         android:layout_height="243dp"
         android:layout_marginStart="60dp"
@@ -33,7 +33,7 @@
         app:cs_circle_stroke_width="4dp"
         app:cs_circle_style="round"
         app:cs_disable_progress_glow="true"
-        app:cs_negative_enabled="true"
+        app:cs_negative_enabled="false"
         app:cs_pointer_color="@color/colorPrimary"
         app:cs_pointer_halo_border_width="0dp"
         app:cs_pointer_halo_width="0dp"
@@ -43,7 +43,7 @@
 
     <me.tankery.lib.circularseekbar.CircularSeekBar
         android:id="@+id/cs2"
-        app:cs_max = "720"
+        app:cs_max = "1440"
         android:layout_width="284dp"
         android:layout_height="243dp"
         android:layout_marginStart="60dp"
@@ -58,7 +58,7 @@
         app:cs_circle_stroke_width="4dp"
         app:cs_circle_style="square"
         app:cs_disable_progress_glow="true"
-        app:cs_negative_enabled="true"
+        app:cs_negative_enabled="false"
         app:cs_pointer_halo_border_width="0dp"
         app:cs_pointer_halo_width="0dp"
         app:cs_pointer_stroke_width="24dp"
