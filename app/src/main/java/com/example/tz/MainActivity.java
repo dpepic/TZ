@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
@@ -86,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
 
-                offsetThumb = off[i];
+                TimeZone tz = TimeZone.getDefault();
+                offsetThumb = off[i] - (int)TimeUnit.MINUTES.convert(tz.getRawOffset(), TimeUnit.MILLISECONDS);
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
                 CircularSeekBar cs = findViewById(R.id.cs2);
                 cs1.setProgress(cs.getProgress() + off[i]);
@@ -103,8 +106,10 @@ public class MainActivity extends AppCompatActivity {
         cb.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar cs, float progress, boolean fromUser) {
-                Log.wtf("ss", "asdasd");
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
+
+
+
                 cs1.setProgress(cs.getProgress() + offsetThumb);
                 TextView tv = findViewById(R.id.textView);
 
@@ -118,6 +123,18 @@ public class MainActivity extends AppCompatActivity {
                 int sati = tBase / 60;
                 int minute = tBase % 60;
 
+                tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
+                tv = findViewById(R.id.textView2);
+
+
+                testSplit = (int)cs1.getProgress();
+
+                tBase = (testSplit / 15) * 15;
+                if (testSplit % 15 > 7)
+                    tBase += 15;
+
+                sati = tBase / 60;
+                minute = tBase % 60;
                 tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
 
             }
