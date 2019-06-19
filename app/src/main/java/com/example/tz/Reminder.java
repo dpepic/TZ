@@ -33,17 +33,6 @@ public class Reminder extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
-        int minuti = getIntent().getIntExtra("vreme", 0);
-        TextView tv = findViewById(R.id.textView4);
-        tv.setText(String.valueOf(minuti));
-
-
-
-
-    }
-
-    public void citaj(View but)
-    {
         try
         {
             FileInputStream fi = openFileInput("test.csv");
@@ -53,10 +42,12 @@ public class Reminder extends AppCompatActivity
 
             while (br.ready())
             {
-                String[] chk = br.readLine().split(";");
+                String a = br.readLine();
+                Log.wtf("?", a);
+                String[] chk = a.split(";");
                 CheckBox cb = new CheckBox(this);
-                cb.setText(chk[0]);
-                cb.setChecked(chk[1].equals("on") ? true:false);
+                cb.setText(chk[0] + " --- " + chk[2]);
+                cb.setChecked(chk[2].equals("true") ? true:false);
                 l.addView(cb);
             }
 
@@ -65,28 +56,18 @@ public class Reminder extends AppCompatActivity
             Log.wtf("io", "nema fajla");
         }
 
+
+    }
+
+    public void citaj(View but)
+    {
+
+
     }
 
     public void pisi(View but)
     {
-        try
-        {
-            FileOutputStream fOut = openFileOutput("test.csv",
-                    MODE_PRIVATE);
-            OutputStreamWriter osw = new OutputStreamWriter(fOut);
-            BufferedWriter bw = new BufferedWriter(osw);
-            bw.write("jedan;off");
-            bw.newLine();
-            bw.write("dva;on");
-            bw.newLine();
-            bw.write("tri;off");
-            bw.flush();
-            bw.close();
-        } catch (Exception joj)
-        {
-            joj.printStackTrace();
-            Log.wtf("io", "Greska pri upisu");
-        }
+
     }
     public void klik(View but)
     {

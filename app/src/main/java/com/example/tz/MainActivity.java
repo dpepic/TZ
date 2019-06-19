@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void remind(View but)
     {
-        Intent namera = new Intent(getApplicationContext(), Reminder.class);
+        Intent namera = new Intent(getApplicationContext(), ReminderCreate.class);
         CircularSeekBar cb = findViewById(R.id.cs2);
         int[] min = minutiUsate((int)cb.getProgress(), 15);
         namera.putExtra("vreme", min[0]*60 + min[1]);
