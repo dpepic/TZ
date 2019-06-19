@@ -2,6 +2,7 @@ package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.renderscript.Sampler;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,20 +48,20 @@ public class MainActivity extends AppCompatActivity {
 
         CircularSeekBar sbar = findViewById(R.id.cs2);
 
-        GregorianCalendar tst = new GregorianCalendar();
-        sbar.setProgress(tst.get(GregorianCalendar.HOUR_OF_DAY) * 60
-                          + tst.get(GregorianCalendar.MINUTE));
+        GregorianCalendar vreme = new GregorianCalendar();
+        sbar.setProgress(vreme.get(GregorianCalendar.HOUR_OF_DAY) * 60
+                          + vreme.get(GregorianCalendar.MINUTE));
 
-        int testSplit = (int) sbar.getProgress();
-
-        int tBase = (testSplit / 15) * 15;
-        if (testSplit % 15 > 7)
-            tBase += 15;
-
-        int sati = tBase / 60;
-        int minute = tBase % 60;
+        int[] v = minutiUsate((int)sbar.getProgress(), 15);
+        sbar.setProgress(v[0] * 60 + v[1]);
         TextView tv = findViewById(R.id.textView);
-        tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
+        tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
+
+        sbar = findViewById(R.id.cs1);
+        v = minutiUsate((int)sbar.getProgress(), 15);
+        sbar.setProgress(v[0] * 60 + v[1]);
+        tv = findViewById(R.id.textView2);
+        tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
 
         Set<String> testSet = new HashSet<String>();
         //Set je slican vektoru i steku, sa tim da set nece
@@ -79,20 +81,34 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner dropDown = findViewById(R.id.TZdd);
 
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            // Get private mPopup member variable and try cast to ListPopupWindow
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(dropDown);
+
+            // Set popupWindow height to 500px
+            popupWindow.setHeight(350);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item, vremenske);
 
         dropDown.setAdapter(adapter);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
-
                 TimeZone tz = TimeZone.getDefault();
                 offsetThumb = off[i] - (int)TimeUnit.MINUTES.convert(tz.getRawOffset(), TimeUnit.MILLISECONDS);
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
                 CircularSeekBar cs = findViewById(R.id.cs2);
-                cs1.setProgress(cs.getProgress() + off[i]);
+                cs1.setProgress(cs.getProgress() + offsetThumb);
             }
 
             @Override
@@ -108,34 +124,15 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(CircularSeekBar cs, float progress, boolean fromUser) {
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
 
-
-
                 cs1.setProgress(cs.getProgress() + offsetThumb);
                 TextView tv = findViewById(R.id.textView);
 
-                String tst = String.valueOf((int) progress);
-                int testSplit = (int) progress;
-
-                int tBase = (testSplit / 15) * 15;
-                if (testSplit % 15 > 7)
-                    tBase += 15;
-
-                int sati = tBase / 60;
-                int minute = tBase % 60;
-
-                tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
+                int[] v = minutiUsate((int)progress, 15);
+                tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
                 tv = findViewById(R.id.textView2);
 
-
-                testSplit = (int)cs1.getProgress();
-
-                tBase = (testSplit / 15) * 15;
-                if (testSplit % 15 > 7)
-                    tBase += 15;
-
-                sati = tBase / 60;
-                minute = tBase % 60;
-                tv.setText(tBase + " --- " + String.valueOf(sati) + " : " + String.valueOf(minute));
+                v = minutiUsate((int)cs1.getProgress(), 15);
+                tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
 
             }
 
@@ -151,13 +148,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void klik(View s) {
+    int[] minutiUsate(int minuta, int podela)
+    {
+        int tBase = (minuta / podela) * podela;
+        if (minuta % podela > 7)
+            tBase += podela;
 
-        CircularSeekBar cs2 = (CircularSeekBar) s;
-        cs2.setProgress(10);
+        int[] vreme = new int[2];
+        vreme[0] = tBase / 60;
+        vreme[1] = tBase % 60;
+        return vreme;
+    }
 
-        CircularSeekBar cs = findViewById(R.id.cs1);
-        cs.setProgress(10);
-
+    public void remind(View but)
+    {
+        Intent namera = new Intent(getApplicationContext(), Reminder.class);
+        CircularSeekBar cb = findViewById(R.id.cs2);
+        int[] min = minutiUsate((int)cb.getProgress(), 15);
+        namera.putExtra("vreme", min[0]*60 + min[1]);
+        startActivity(namera);
     }
 }
