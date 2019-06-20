@@ -42,7 +42,7 @@ public class ReminderCreate extends AppCompatActivity {
         EditText et1 = findViewById(R.id.naslov);
         EditText et2 = findViewById(R.id.opis);
         CheckBox ch = findViewById(R.id.alarm);
-        String out = vreme + ";" + String.valueOf(ch.isChecked()) + ";" + et1.getText() + ";" + et2.getText();
+        String out = vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText();
         try
         {
             FileOutputStream fOut = openFileOutput("test.csv",
