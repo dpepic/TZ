@@ -1,12 +1,17 @@
 package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.os.PowerManager;
 import android.renderscript.Sampler;
 import android.util.Log;
@@ -46,13 +51,34 @@ public class MainActivity extends AppCompatActivity {
     int[] off;
     int offsetThumb = 0;
 
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "kanal";
+            String description = "kanal za notifikacije TZ";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("TZK", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void klik(View b)
+    {
+
+        RemRing test = new RemRing();
+        test.SetAlarm(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        RemRing test = new RemRing();
-        test.SetAlarm(this);
+        this.createNotificationChannel();
 
         CircularSeekBar sbar = findViewById(R.id.cs2);
 
