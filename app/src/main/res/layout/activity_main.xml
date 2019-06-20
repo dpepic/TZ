@@ -25,7 +25,9 @@
         android:layout_height="451dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
         app:cs_circle_color="@color/colorAccent"
         app:cs_circle_progress_color="@color/colorAccent"
         app:cs_circle_stroke_width="4dp"
@@ -37,6 +39,7 @@
         app:cs_pointer_halo_border_width="0dp"
         app:cs_pointer_halo_width="0dp"
         app:cs_pointer_stroke_width="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +49,9 @@
         android:layout_height="451dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -60,6 +65,7 @@
         app:cs_pointer_halo_border_width="0dp"
         app:cs_pointer_halo_width="0dp"
         app:cs_pointer_stroke_width="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +75,7 @@
         android:layout_height="33dp"
         android:layout_marginStart="76dp"
         android:layout_marginLeft="76dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cs1" />
 
@@ -101,9 +107,9 @@
         android:id="@+id/reminderBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
         android:onClick="remind"
         android:text="+"
         app:layout_constraintEnd_toEndOf="parent"
