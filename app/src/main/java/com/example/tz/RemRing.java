@@ -23,27 +23,31 @@ public class RemRing extends BroadcastReceiver
             wl.acquire();
 
             Log.wtf("alaram", "zvoni");
+            long[] vibPat = {1000, 500, 1000, 500, 1000, 500};
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "TZK")
                     .setSmallIcon(R.mipmap.ic_launcher_round)
                     .setContentTitle("Test")
                     .setContentText("Ovo je test...")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setCategory(NotificationCompat.CATEGORY_ALARM)
+                    .setVibrate(vibPat);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
             notificationManager.notify(105, builder.build());
+            this.CancelAlarm(context);
 
             wl.release();
         }
 
-        public void SetAlarm(Context context)
+        public void SetAlarm(Context context, int minuta)
         {
             Log.wtf("alarm", "Set!");
             AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent i = new Intent(context, RemRing.class);
             PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 10, pi);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), minuta * 60 * 1000, pi);
         }
 
         public void CancelAlarm(Context context)

@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 
 public class ReminderCreate extends AppCompatActivity {
 
-    int vreme;
+    int vreme, razlika;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class ReminderCreate extends AppCompatActivity {
         setContentView(R.layout.activity_reminder_create);
 
         vreme = getIntent().getIntExtra("vreme", 0);
-
+        razlika = getIntent().getIntExtra("razlika", 0);
         TextView tv = findViewById(R.id.vreme);
         tv.setText(vreme/60 + " : " + vreme % 60);
     }
@@ -42,6 +42,12 @@ public class ReminderCreate extends AppCompatActivity {
         EditText et1 = findViewById(R.id.naslov);
         EditText et2 = findViewById(R.id.opis);
         CheckBox ch = findViewById(R.id.alarm);
+        if (ch.isChecked())
+        {
+            RemRing test = new RemRing();
+            test.SetAlarm(getApplicationContext(), 1);
+            Log.wtf("alarm", "Podesen!");
+        }
         String out = vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText();
         try
         {

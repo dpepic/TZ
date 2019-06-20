@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
     public void klik(View b)
     {
 
-        RemRing test = new RemRing();
-        test.SetAlarm(this);
+        //RemRing test = new RemRing();
+        //test.SetAlarm(this);
     }
 
     @Override
@@ -198,8 +198,20 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent namera = new Intent(getApplicationContext(), ReminderCreate.class);
         CircularSeekBar cb = findViewById(R.id.cs2);
+        CircularSeekBar cb2 = findViewById(R.id.cs1);
         int[] min = minutiUsate((int)cb.getProgress(), 15);
         namera.putExtra("vreme", min[0]*60 + min[1]);
+        GregorianCalendar vreme = new GregorianCalendar();
+        int razlika =Math.abs ((vreme.get(GregorianCalendar.HOUR_OF_DAY) * 60
+                + vreme.get(GregorianCalendar.MINUTE)) - (int)cb.getProgress());
+        Log.wtf("info", "tren: "+(vreme.get(GregorianCalendar.HOUR_OF_DAY) * 60
+                        + vreme.get(GregorianCalendar.MINUTE)));
+        Log.wtf("info", "podeseno: "+cb.getProgress());
+
+
+        Log.wtf("info", "razlika je " + razlika);
+
+        namera.putExtra("razlika", razlika);
         startActivity(namera);
     }
 }
