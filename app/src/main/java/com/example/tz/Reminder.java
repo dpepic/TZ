@@ -59,9 +59,7 @@ public class Reminder extends AppCompatActivity
                     {
                         LinearLayout l = findViewById(R.id.lejout);
                         String asd = rem.elementAt(l.indexOfChild(compoundButton));
-                        Log.wtf("ch", asd);
                         asd = asd.replace(String.valueOf(!b), String.valueOf(b));
-                        Log.wtf("ch", asd);
                         rem.remove(l.indexOfChild(compoundButton));
                         rem.insertElementAt(asd, l.indexOfChild(compoundButton));
                         promena = true;

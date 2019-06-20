@@ -2,8 +2,12 @@ package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.os.PowerManager;
 import android.renderscript.Sampler;
 import android.util.Log;
 import android.util.TimeUtils;
@@ -18,6 +22,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.sql.Time;
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RemRing test = new RemRing();
+        test.SetAlarm(this);
 
         CircularSeekBar sbar = findViewById(R.id.cs2);
 
