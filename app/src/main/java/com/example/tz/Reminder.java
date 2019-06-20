@@ -47,6 +47,7 @@ public class Reminder extends AppCompatActivity
                 String[] chk = a.split(";");
                 CheckBox cb = new CheckBox(this);
                 cb.setText(chk[0] + " --- " + chk[2]);
+                Log.wtf("test", chk[2]);
                 cb.setChecked(chk[2].equals("true") ? true:false);
                 l.addView(cb);
             }
