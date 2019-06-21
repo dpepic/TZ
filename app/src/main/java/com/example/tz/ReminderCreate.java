@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -14,10 +15,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.GregorianCalendar;
 
 public class ReminderCreate extends AppCompatActivity {
 
-    int vreme, razlika;
+    int vreme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,14 @@ public class ReminderCreate extends AppCompatActivity {
         setContentView(R.layout.activity_reminder_create);
 
         vreme = getIntent().getIntExtra("vreme", 0);
-        razlika = getIntent().getIntExtra("razlika", 0);
         TextView tv = findViewById(R.id.vreme);
         tv.setText(vreme/60 + " : " + vreme % 60);
     }
 
+    public void test(View but)
+    {
+
+    }
     public void nazad(View but)
     {
         Intent test = new Intent(this, MainActivity.class);
@@ -42,13 +47,28 @@ public class ReminderCreate extends AppCompatActivity {
         EditText et1 = findViewById(R.id.naslov);
         EditText et2 = findViewById(R.id.opis);
         CheckBox ch = findViewById(R.id.alarm);
-        if (ch.isChecked())
-        {
+
+        DatePicker dp = findViewById(R.id.datePicker);
+
+        GregorianCalendar selected = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
+        int idRem = 0;
+
+            GregorianCalendar today = new GregorianCalendar();
+
+            int daniRazlike = selected.get(GregorianCalendar.DAY_OF_YEAR) - today.get(GregorianCalendar.DAY_OF_YEAR);
+            int minutRazlike = this.vreme - (today.get(GregorianCalendar.HOUR_OF_DAY) * 60 + today.get(GregorianCalendar.MINUTE));
+
+            long razlikaMin = daniRazlike * 24 * 60 + minutRazlike;
+
+        if (ch.isChecked() && selected.after(today)) {
             RemRing test = new RemRing();
-            test.SetAlarm(getApplicationContext(), 1);
-            Log.wtf("alarm", "Podesen!");
+            test.SetAlarm(getApplicationContext(), 5);
+            idRem = test.id;
         }
-        String out = vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText();
+
+        String out = selected.get(GregorianCalendar.YEAR) + "--" +selected.get(GregorianCalendar.MONTH) + "--" +
+                selected.get(GregorianCalendar.DAY_OF_MONTH)+ "--" + vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText() + ";" + "id+" + idRem + "+id";
+
         try
         {
             FileOutputStream fOut = openFileOutput("test.csv",
@@ -59,12 +79,16 @@ public class ReminderCreate extends AppCompatActivity {
             bw.newLine();
             bw.flush();
             bw.close();
-            Intent rem = new Intent(this, Reminder.class);
-            startActivity(rem);
         } catch (Exception joj)
         {
             joj.printStackTrace();
             Log.wtf("io", "Greska pri upisu");
         }
+
+
+
+        Intent rem = new Intent(this, Reminder.class);
+        startActivity(rem);
+
     }
 }

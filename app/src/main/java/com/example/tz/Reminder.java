@@ -2,6 +2,9 @@ package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +28,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 public class Reminder extends AppCompatActivity
@@ -50,7 +54,7 @@ public class Reminder extends AppCompatActivity
                 rem.add(br.readLine());
                 String[] chk = rem.lastElement().split(";");
                 CheckBox cb = new CheckBox(this);
-                cb.setText(chk[0] + " --- " + chk[2] + " --- " + chk[3]);
+                cb.setText(chk[2] + " --- " + chk[3]);
                 cb.setChecked(chk[1].equals("true") ? true:false);
                 cb.setLongClickable(true);
                 cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -60,9 +64,42 @@ public class Reminder extends AppCompatActivity
                         LinearLayout l = findViewById(R.id.lejout);
                         String asd = rem.elementAt(l.indexOfChild(compoundButton));
                         asd = asd.replace(String.valueOf(!b), String.valueOf(b));
+                        Log.wtf("t", asd);
+                        if (!b)
+                        {
+                            String rep = asd.split(";")[4];
+                            asd = asd.replace(rep, "id+0+id");
+                            Intent intent = new Intent(getApplicationContext(), RemRing.class);
+                            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(rep.split("\\+")[1]), intent, 0);
+                            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(sender);
+
+                        } else
+                        {
+                            GregorianCalendar now = new GregorianCalendar();
+                            String[] gregTime = asd.split(";")[0].split("--");
+                            GregorianCalendar alarm = new GregorianCalendar(Integer.parseInt(gregTime[0]), Integer.parseInt(gregTime[1]), Integer.parseInt(gregTime[2]));
+
+                            int daniRazlike = alarm.get(GregorianCalendar.DAY_OF_YEAR) - now.get(GregorianCalendar.DAY_OF_YEAR);
+                            int minutRazlike = Integer.parseInt(gregTime[3]) - (now.get(GregorianCalendar.HOUR_OF_DAY) * 60 + now.get(GregorianCalendar.MINUTE));
+
+                            long razlikaMin = daniRazlike * 24 * 60 + minutRazlike;
+
+                            Log.wtf("raz", "Dani razlike: " + daniRazlike);
+
+                            Log.wtf("raz", "Sada je " + razlikaMin);
+
+                            if (alarm.after(now))
+                            {
+                                RemRing test = new RemRing();
+                                test.SetAlarm(getApplicationContext(), 5);
+                                asd = asd.replace("id+0+id", "id+" + test.id + "+id");
+                            }
+                        }
                         rem.remove(l.indexOfChild(compoundButton));
                         rem.insertElementAt(asd, l.indexOfChild(compoundButton));
                         promena = true;
+
                     }
                 });
                 cb.setOnLongClickListener(new View.OnLongClickListener()
@@ -71,6 +108,16 @@ public class Reminder extends AppCompatActivity
                     public boolean onLongClick(View view)
                     {
                         LinearLayout l = findViewById(R.id.lejout);
+
+                        String rep = rem.get(l.indexOfChild(view));
+                        if (!rep.split(";")[4].equals("id+0+id"))
+                        {
+                            Intent intent = new Intent(getApplicationContext(), RemRing.class);
+                            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(rep.split(";")[4].split("\\+")[1]), intent, 0);
+                            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(sender);
+                        }
+
                         rem.remove(l.indexOfChild(view));
                         l.removeView(view);
                         promena = true;
@@ -84,8 +131,6 @@ public class Reminder extends AppCompatActivity
         {
             Log.wtf("io", "nema fajla");
         }
-
-
     }
 
     @Override

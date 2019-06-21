@@ -52,26 +52,15 @@ public class MainActivity extends AppCompatActivity {
     int offsetThumb = 0;
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "kanal";
             String description = "kanal za notifikacije TZ";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("TZK", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    public void klik(View b)
-    {
-
-        //RemRing test = new RemRing();
-        //test.SetAlarm(this);
     }
 
     @Override
@@ -97,19 +86,6 @@ public class MainActivity extends AppCompatActivity {
         tv = findViewById(R.id.textView2);
         tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
 
-        Set<String> testSet = new HashSet<String>();
-        //Set je slican vektoru i steku, sa tim da set nece
-        //da prihvati vrednosti koje nisu unikante, tj. ne moze
-        //ista vrednost da se nadje u setu dva puta
-        testSet.add("asd");
-        testSet.add("qwe");
-        testSet.add("asd");
-
-        /*for (String s: testSet)
-        {
-            Log.wtf("testSet", s);
-        }*/
-
         vremenske = getResources().getStringArray(R.array.imena);
         off = getResources().getIntArray(R.array.offset);
 
@@ -119,15 +95,11 @@ public class MainActivity extends AppCompatActivity {
             Field popup = Spinner.class.getDeclaredField("mPopup");
             popup.setAccessible(true);
 
-            // Get private mPopup member variable and try cast to ListPopupWindow
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(dropDown);
 
-            // Set popupWindow height to 500px
             popupWindow.setHeight(350);
         }
-        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
-            // silently fail...
-        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) { }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item, vremenske);
@@ -198,20 +170,8 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent namera = new Intent(getApplicationContext(), ReminderCreate.class);
         CircularSeekBar cb = findViewById(R.id.cs2);
-        CircularSeekBar cb2 = findViewById(R.id.cs1);
         int[] min = minutiUsate((int)cb.getProgress(), 15);
         namera.putExtra("vreme", min[0]*60 + min[1]);
-        GregorianCalendar vreme = new GregorianCalendar();
-        int razlika =Math.abs ((vreme.get(GregorianCalendar.HOUR_OF_DAY) * 60
-                + vreme.get(GregorianCalendar.MINUTE)) - (int)cb.getProgress());
-        Log.wtf("info", "tren: "+(vreme.get(GregorianCalendar.HOUR_OF_DAY) * 60
-                        + vreme.get(GregorianCalendar.MINUTE)));
-        Log.wtf("info", "podeseno: "+cb.getProgress());
-
-
-        Log.wtf("info", "razlika je " + razlika);
-
-        namera.putExtra("razlika", razlika);
         startActivity(namera);
     }
 }
