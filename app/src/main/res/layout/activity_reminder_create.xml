@@ -5,6 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReminderCreate">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/media_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="new post image"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/naslov"
@@ -12,71 +30,86 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="99dp"
         android:layout_marginLeft="99dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="99dp"
+        android:layout_marginRight="99dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/vreme"
-        android:layout_width="wrap_content"
+        android:layout_width="59dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="167dp"
         android:layout_marginLeft="167dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="130dp"
         android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.021"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/naslov" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/opis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="99dp"
-        android:layout_marginLeft="99dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="160dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.331"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vreme" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/nazad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginRight="300dp"
         android:onClick="nazad"
         android:text="-"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarm" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/snimi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="252dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:onClick="snimi"
         android:text="+"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/opis" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="218dp"
         android:text="Alarm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.378"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/opis" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -84,13 +117,13 @@
         android:layout_height="132dp"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="120dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="240dp"
         android:layout_marginEnd="120dp"
         android:layout_marginRight="120dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/opis"></DatePicker>
+        app:layout_constraintTop_toTopOf="parent"></DatePicker>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

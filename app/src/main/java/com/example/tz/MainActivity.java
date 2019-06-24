@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.lang.reflect.Field;
 import java.sql.Time;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         int[] v = minutiUsate((int)sbar.getProgress(), 15);
         sbar.setProgress(v[0] * 60 + v[1]);
         TextView tv = findViewById(R.id.textView);
-        tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
+        tv.setText("Local: " + String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
 
         sbar = findViewById(R.id.cs1);
         v = minutiUsate((int)sbar.getProgress(), 15);
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView tv = findViewById(R.id.textView);
 
                 int[] v = minutiUsate((int)progress, 15);
-                tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
+                tv.setText("Local: " + String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
                 tv = findViewById(R.id.textView2);
 
                 v = minutiUsate((int)cs1.getProgress(), 15);

@@ -78,7 +78,8 @@ public class Reminder extends AppCompatActivity
                         {
                             GregorianCalendar now = new GregorianCalendar();
                             String[] gregTime = asd.split(";")[0].split("--");
-                            GregorianCalendar alarm = new GregorianCalendar(Integer.parseInt(gregTime[0]), Integer.parseInt(gregTime[1]), Integer.parseInt(gregTime[2]));
+                            GregorianCalendar alarm = new GregorianCalendar(Integer.parseInt(gregTime[0]), Integer.parseInt(gregTime[1]), Integer.parseInt(gregTime[2]),
+                                    Integer.parseInt(gregTime[3])/60 , Integer.parseInt(gregTime[3]) % 60);
 
                             int daniRazlike = alarm.get(GregorianCalendar.DAY_OF_YEAR) - now.get(GregorianCalendar.DAY_OF_YEAR);
                             int minutRazlike = Integer.parseInt(gregTime[3]) - (now.get(GregorianCalendar.HOUR_OF_DAY) * 60 + now.get(GregorianCalendar.MINUTE));
@@ -92,7 +93,7 @@ public class Reminder extends AppCompatActivity
                             if (alarm.after(now))
                             {
                                 RemRing test = new RemRing();
-                                test.SetAlarm(getApplicationContext(), 5);
+                                test.SetAlarm(getApplicationContext(), 1);
                                 asd = asd.replace("id+0+id", "id+" + test.id + "+id");
                             }
                         }

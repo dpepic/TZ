@@ -25,19 +25,17 @@ public class RemRing extends BroadcastReceiver
         @Override
         public void onReceive(Context context, Intent intent)
         {
+            Log.wtf("alarm", "Zvoni");
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "tz:ringer");
             wl.acquire();
-
-            long[] vibPat = {1000, 500, 1000, 500, 1000, 500};
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "TZK")
                     .setSmallIcon(R.mipmap.ic_launcher_round)
                     .setContentTitle(this.naziv)
                     .setContentText(this.tekst)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setCategory(NotificationCompat.CATEGORY_ALARM)
-                    .setVibrate(vibPat);
+                    .setCategory(NotificationCompat.CATEGORY_ALARM);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
@@ -50,6 +48,7 @@ public class RemRing extends BroadcastReceiver
 
         public void SetAlarm(Context context, long minuta)
         {
+            Log.wtf("alarm", "Podesen!");
             AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent i = new Intent(context, RemRing.class);
             PendingIntent pi = PendingIntent.getBroadcast(context, this.id, i, 0);
@@ -58,6 +57,7 @@ public class RemRing extends BroadcastReceiver
 
         public void CancelAlarm(Context context)
         {
+            Log.wtf("alarm", "Iskljucen!");
             Intent intent = new Intent(context, RemRing.class);
             PendingIntent sender = PendingIntent.getBroadcast(context, this.id, intent, 0);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

@@ -28,7 +28,7 @@ public class ReminderCreate extends AppCompatActivity {
 
         vreme = getIntent().getIntExtra("vreme", 0);
         TextView tv = findViewById(R.id.vreme);
-        tv.setText(vreme/60 + " : " + vreme % 60);
+        tv.setText(vreme/60 + " : " + (vreme % 60 == 0 ? "00" : vreme % 60));
     }
 
     public void test(View but)
@@ -50,7 +50,8 @@ public class ReminderCreate extends AppCompatActivity {
 
         DatePicker dp = findViewById(R.id.datePicker);
 
-        GregorianCalendar selected = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
+        GregorianCalendar selected = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(),
+                    vreme/60 , vreme % 60);
         int idRem = 0;
 
             GregorianCalendar today = new GregorianCalendar();
@@ -60,9 +61,12 @@ public class ReminderCreate extends AppCompatActivity {
 
             long razlikaMin = daniRazlike * 24 * 60 + minutRazlike;
 
+            Log.wtf("datum", "danas: " + today.toString());
+            Log.wtf("datum", "izabrano: " + selected.toString() );
         if (ch.isChecked() && selected.after(today)) {
+            Log.wtf("alarm", "Pravim!");
             RemRing test = new RemRing();
-            test.SetAlarm(getApplicationContext(), 5);
+            test.SetAlarm(getApplicationContext(), 1);
             idRem = test.id;
         }
 
@@ -84,8 +88,6 @@ public class ReminderCreate extends AppCompatActivity {
             joj.printStackTrace();
             Log.wtf("io", "Greska pri upisu");
         }
-
-
 
         Intent rem = new Intent(this, Reminder.class);
         startActivity(rem);
