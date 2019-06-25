@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
+
     defaultConfig {
         applicationId "com.example.tz"
         minSdkVersion 15
@@ -28,4 +29,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.work:work-runtime:2.0.1'
 }

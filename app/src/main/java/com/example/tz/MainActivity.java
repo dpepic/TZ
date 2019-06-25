@@ -116,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
                 CircularSeekBar cs = findViewById(R.id.cs2);
                 cs1.setProgress(cs.getProgress() + offsetThumb);
+
+                TextView tv = findViewById(R.id.textView);
+
+                CircularSeekBar cs2 = findViewById(R.id.cs2);
+                int[] v = minutiUsate((int)cs2.getProgress(), 15);
+                tv.setText("Local: " + String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
+                tv = findViewById(R.id.textView2);
+
+                v = minutiUsate((int)cs1.getProgress(), 15);
+                tv.setText(String.valueOf(v[0] == 0 ? "00" : v[0]) + " : " + String.valueOf(v[1] == 0 ? "00" : v[1]));
             }
 
             @Override

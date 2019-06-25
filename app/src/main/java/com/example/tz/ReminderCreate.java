@@ -1,6 +1,9 @@
 package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 public class ReminderCreate extends AppCompatActivity {
 
@@ -52,7 +56,7 @@ public class ReminderCreate extends AppCompatActivity {
 
         GregorianCalendar selected = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(),
                     vreme/60 , vreme % 60);
-        int idRem = 0;
+        String idRem = "0";
 
             GregorianCalendar today = new GregorianCalendar();
 
@@ -65,9 +69,12 @@ public class ReminderCreate extends AppCompatActivity {
             Log.wtf("datum", "izabrano: " + selected.toString() );
         if (ch.isChecked() && selected.after(today)) {
             Log.wtf("alarm", "Pravim!");
-            RemRing test = new RemRing();
-            test.SetAlarm(getApplicationContext(), 1);
-            idRem = test.id;
+            OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(RemWorker.class)
+                    .setInitialDelay(1, TimeUnit.MINUTES)
+                    .build();
+
+            WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
+            idRem = work.getId().toString();
         }
 
         String out = selected.get(GregorianCalendar.YEAR) + "--" +selected.get(GregorianCalendar.MONTH) + "--" +

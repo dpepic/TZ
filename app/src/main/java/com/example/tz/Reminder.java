@@ -1,6 +1,9 @@
 package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -30,6 +33,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 public class Reminder extends AppCompatActivity
 {
@@ -69,11 +73,7 @@ public class Reminder extends AppCompatActivity
                         {
                             String rep = asd.split(";")[4];
                             asd = asd.replace(rep, "id+0+id");
-                            Intent intent = new Intent(getApplicationContext(), RemRing.class);
-                            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(rep.split("\\+")[1]), intent, 0);
-                            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                            alarmManager.cancel(sender);
-
+                            WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
                         } else
                         {
                             GregorianCalendar now = new GregorianCalendar();
@@ -92,9 +92,12 @@ public class Reminder extends AppCompatActivity
 
                             if (alarm.after(now))
                             {
-                                RemRing test = new RemRing();
-                                test.SetAlarm(getApplicationContext(), 1);
-                                asd = asd.replace("id+0+id", "id+" + test.id + "+id");
+                                OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(RemWorker.class)
+                                        .setInitialDelay(1, TimeUnit.MINUTES)
+                                        .build();
+
+                                WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
+                                asd = asd.replace("id+0+id", "id+" + work.getId() + "+id");
                             }
                         }
                         rem.remove(l.indexOfChild(compoundButton));
@@ -113,10 +116,10 @@ public class Reminder extends AppCompatActivity
                         String rep = rem.get(l.indexOfChild(view));
                         if (!rep.split(";")[4].equals("id+0+id"))
                         {
-                            Intent intent = new Intent(getApplicationContext(), RemRing.class);
-                            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(rep.split(";")[4].split("\\+")[1]), intent, 0);
-                            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                            alarmManager.cancel(sender);
+                           // Intent intent = new Intent(getApplicationContext(), RemRing.class);
+                           // PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(rep.split(";")[4].split("\\+")[1]), intent, 0);
+                           // AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                           // alarmManager.cancel(sender);
                         }
 
                         rem.remove(l.indexOfChild(view));
