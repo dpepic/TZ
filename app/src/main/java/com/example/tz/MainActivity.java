@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.PowerManager;
 import android.renderscript.Sampler;
@@ -184,5 +185,12 @@ public class MainActivity extends AppCompatActivity {
         int[] min = minutiUsate((int)cb.getProgress(), 15);
         namera.putExtra("vreme", min[0]*60 + min[1]);
         startActivity(namera);
+    }
+
+    public void kliiik(View but)
+    {
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.zvonozaaplikaciju);
+        mp.start();
+
     }
 }
