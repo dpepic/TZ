@@ -35,10 +35,6 @@ public class ReminderCreate extends AppCompatActivity {
         tv.setText(vreme/60 + " : " + (vreme % 60 == 0 ? "00" : vreme % 60));
     }
 
-    public void test(View but)
-    {
-
-    }
     public void nazad(View but)
     {
         Intent test = new Intent(this, MainActivity.class);
@@ -75,6 +71,8 @@ public class ReminderCreate extends AppCompatActivity {
 
             WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
             idRem = work.getId().toString();
+            String[] arr = {et1.getText().toString(), et2.getText().toString()};
+            RemWorker.tekst.put(work.getId(), arr);
         }
 
         String out = selected.get(GregorianCalendar.YEAR) + "--" +selected.get(GregorianCalendar.MONTH) + "--" +

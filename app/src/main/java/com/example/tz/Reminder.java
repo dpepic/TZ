@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +40,7 @@ public class Reminder extends AppCompatActivity
 {
     boolean promena = false;
     Vector<String> rem = new Vector<String>();
+    Random r = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,6 +74,7 @@ public class Reminder extends AppCompatActivity
                         if (!b)
                         {
                             String rep = asd.split(";")[4];
+                            RemWorker.tekst.remove(rep.split("\\+")[1]);
                             asd = asd.replace(rep, "id+0+id");
                             WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
                         } else
@@ -96,16 +99,19 @@ public class Reminder extends AppCompatActivity
                                         .setInitialDelay(1, TimeUnit.MINUTES)
                                         .build();
 
+                                RemWorker.id = r.nextInt(100000000 + 1);
                                 WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
                                 asd = asd.replace("id+0+id", "id+" + work.getId() + "+id");
+                                String[] txt = {asd.split(";")[2], asd.split(";")[3]};
+                                RemWorker.tekst.put(work.getId(), txt);
                             }
                         }
                         rem.remove(l.indexOfChild(compoundButton));
                         rem.insertElementAt(asd, l.indexOfChild(compoundButton));
                         promena = true;
-
                     }
                 });
+
                 cb.setOnLongClickListener(new View.OnLongClickListener()
                 {
                     @Override
@@ -116,12 +122,11 @@ public class Reminder extends AppCompatActivity
                         String rep = rem.get(l.indexOfChild(view));
                         if (!rep.split(";")[4].equals("id+0+id"))
                         {
-                           // Intent intent = new Intent(getApplicationContext(), RemRing.class);
-                           // PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(rep.split(";")[4].split("\\+")[1]), intent, 0);
-                           // AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                           // alarmManager.cancel(sender);
+                            WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
+                            String replace = rep.split(";")[4];
+                            RemWorker.tekst.remove(rep.split("\\+")[1]);
+                            rep = rep.replace(replace, "id+0+id");
                         }
-
                         rem.remove(l.indexOfChild(view));
                         l.removeView(view);
                         promena = true;
@@ -159,16 +164,6 @@ public class Reminder extends AppCompatActivity
         super.onStop();
     }
 
-    public void citaj(View but)
-    {
-
-
-    }
-
-    public void pisi(View but)
-    {
-
-    }
     public void klik(View but)
     {
         Intent test = new Intent(Reminder.this, MainActivity.class);
