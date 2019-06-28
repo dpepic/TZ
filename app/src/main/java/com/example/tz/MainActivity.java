@@ -1,54 +1,23 @@
 package com.example.tz;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.PowerManager;
-import android.renderscript.Sampler;
-import android.util.Log;
-import android.util.TimeUtils;
-import android.util.TimeUtils.*;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
-
-import java.io.File;
 import java.lang.reflect.Field;
-import java.sql.Time;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("TZK", name, importance);
             channel.setDescription(description);
-            Uri uri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.zvonozaaplikaciju);
 
+            Uri uri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.zvonozaaplikaciju);
             channel.setSound(uri, new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_ALARM)
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .build());
+
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -195,11 +165,5 @@ public class MainActivity extends AppCompatActivity {
         int[] min = minutiUsate((int)cb.getProgress(), 15);
         namera.putExtra("vreme", min[0]*60 + min[1]);
         startActivity(namera);
-    }
-
-    public void kliiik(View but)
-    {
-        RingtoneManager.getRingtone(getApplicationContext(),Uri.parse("android.resource://"+getPackageName() + "/" + R.raw.zvonozaaplikaciju)).play();
-
     }
 }

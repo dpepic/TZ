@@ -4,31 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
@@ -68,19 +54,18 @@ public class Reminder extends AppCompatActivity
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b)
                     {
                         LinearLayout l = findViewById(R.id.lejout);
-                        String asd = rem.elementAt(l.indexOfChild(compoundButton));
-                        asd = asd.replace(String.valueOf(!b), String.valueOf(b));
-                        Log.wtf("t", asd);
+                        String red = rem.elementAt(l.indexOfChild(compoundButton));
+                        red = red.replace(String.valueOf(!b), String.valueOf(b));
                         if (!b)
                         {
-                            String rep = asd.split(";")[4];
+                            String rep = red.split(";")[4];
                             RemWorker.tekst.remove(rep.split("\\+")[1]);
-                            asd = asd.replace(rep, "id+0+id");
+                            red = red.replace(rep, "id+0+id");
                             WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
                         } else
                         {
                             GregorianCalendar now = new GregorianCalendar();
-                            String[] gregTime = asd.split(";")[0].split("--");
+                            String[] gregTime = red.split(";")[0].split("--");
                             GregorianCalendar alarm = new GregorianCalendar(Integer.parseInt(gregTime[0]), Integer.parseInt(gregTime[1]), Integer.parseInt(gregTime[2]),
                                     Integer.parseInt(gregTime[3])/60 , Integer.parseInt(gregTime[3]) % 60);
 
@@ -88,10 +73,6 @@ public class Reminder extends AppCompatActivity
                             int minutRazlike = Integer.parseInt(gregTime[3]) - (now.get(GregorianCalendar.HOUR_OF_DAY) * 60 + now.get(GregorianCalendar.MINUTE));
 
                             long razlikaMin = daniRazlike * 24 * 60 + minutRazlike;
-
-                            Log.wtf("raz", "Dani razlike: " + daniRazlike);
-
-                            Log.wtf("raz", "Sada je " + razlikaMin);
 
                             if (alarm.after(now))
                             {
@@ -101,13 +82,13 @@ public class Reminder extends AppCompatActivity
 
                                 RemWorker.id = r.nextInt(100000000 + 1);
                                 WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
-                                asd = asd.replace("id+0+id", "id+" + work.getId() + "+id");
-                                String[] txt = {asd.split(";")[2], asd.split(";")[3]};
+                                red = red.replace("id+0+id", "id+" + work.getId() + "+id");
+                                String[] txt = {red.split(";")[2], red.split(";")[3]};
                                 RemWorker.tekst.put(work.getId(), txt);
                             }
                         }
                         rem.remove(l.indexOfChild(compoundButton));
-                        rem.insertElementAt(asd, l.indexOfChild(compoundButton));
+                        rem.insertElementAt(red, l.indexOfChild(compoundButton));
                         promena = true;
                     }
                 });
@@ -166,8 +147,8 @@ public class Reminder extends AppCompatActivity
 
     public void klik(View but)
     {
-        Intent test = new Intent(Reminder.this, MainActivity.class);
-        test.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(test, 0);
+        Intent nazad = new Intent(Reminder.this, MainActivity.class);
+        nazad.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(nazad, 0);
     }
 }
