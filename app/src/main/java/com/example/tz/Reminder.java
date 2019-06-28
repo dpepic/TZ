@@ -50,7 +50,7 @@ public class Reminder extends AppCompatActivity
 
         try
         {
-            FileInputStream fi = openFileInput("test.csv");
+            FileInputStream fi = openFileInput("reminders.csv");
             BufferedReader br = new BufferedReader(new InputStreamReader(fi));
 
             LinearLayout l = findViewById(R.id.lejout);
@@ -148,7 +148,7 @@ public class Reminder extends AppCompatActivity
         if (promena)
         {
             try {
-                FileOutputStream fOut = openFileOutput("test.csv",
+                FileOutputStream fOut = openFileOutput("reminders.csv",
                         MODE_PRIVATE);
                 OutputStreamWriter osw = new OutputStreamWriter(fOut);
                 BufferedWriter bw = new BufferedWriter(osw);

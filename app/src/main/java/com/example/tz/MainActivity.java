@@ -11,7 +11,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.renderscript.Sampler;
@@ -31,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.sql.Time;
 import java.util.Calendar;
@@ -55,11 +59,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "kanal";
+            CharSequence name = "TZkanal";
             String description = "kanal za notifikacije TZ";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("TZK", name, importance);
             channel.setDescription(description);
+            Uri uri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.zvonozaaplikaciju);
+
+            channel.setSound(uri, new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build());
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -189,8 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void kliiik(View but)
     {
-        MediaPlayer mp = MediaPlayer.create(this, R.raw.zvonozaaplikaciju);
-        mp.start();
+        RingtoneManager.getRingtone(getApplicationContext(),Uri.parse("android.resource://"+getPackageName() + "/" + R.raw.zvonozaaplikaciju)).play();
 
     }
 }

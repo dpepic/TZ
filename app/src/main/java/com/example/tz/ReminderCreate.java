@@ -80,7 +80,7 @@ public class ReminderCreate extends AppCompatActivity {
 
         try
         {
-            FileOutputStream fOut = openFileOutput("test.csv",
+            FileOutputStream fOut = openFileOutput("reminders.csv",
                     MODE_APPEND);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
             BufferedWriter bw = new BufferedWriter(osw);
