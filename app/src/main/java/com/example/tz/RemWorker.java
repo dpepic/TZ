@@ -38,7 +38,7 @@ public class RemWorker extends Worker
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSound(uri)
                 .setAutoCancel(true);
 
         PendingIntent notifyPIntent =
