@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
 import java.util.Random;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
@@ -103,7 +104,10 @@ public class Reminder extends AppCompatActivity
                         String rep = rem.get(l.indexOfChild(view));
                         if (!rep.split(";")[4].equals("id+0+id"))
                         {
+                            Log.wtf("asd", "brisem...");
                             WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
+                           // WorkManager.getInstance().cancelWorkById();
+                            Log.wtf("asd", rep.split("\\+")[1]);
                             String replace = rep.split(";")[4];
                             RemWorker.tekst.remove(rep.split("\\+")[1]);
                             rep = rep.replace(replace, "id+0+id");

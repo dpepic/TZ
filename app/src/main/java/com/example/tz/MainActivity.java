@@ -5,22 +5,24 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.media.AudioAttributes;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
     String[] vremenske;
     int[] off;
@@ -165,5 +167,34 @@ public class MainActivity extends AppCompatActivity {
         int[] min = minutiUsate((int)cb.getProgress(), 15);
         namera.putExtra("vreme", min[0]*60 + min[1]);
         startActivity(namera);
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.popup_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.item1:
+                if (!this.getClass().equals(MainActivity.class)) {
+                    Intent drugaAktivnost = new Intent(this, MainActivity.class);
+                    startActivity(drugaAktivnost);
+                }
+                return true;
+
+            case R.id.item2:
+                if (!this.getClass().equals(Reminder.class)) {
+                    Intent trecaAktivnost = new Intent(this, Reminder.class);
+                    startActivity(trecaAktivnost);
+                }
+                return true;
+        }
+        return false;
     }
 }

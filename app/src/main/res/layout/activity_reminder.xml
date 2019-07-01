@@ -23,12 +23,13 @@
             app:srcCompat="@mipmap/ic_launcher_round" />
 
     </LinearLayout>
+
     <Button
         android:id="@+id/nazadBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="291dp"
         android:layout_marginRight="291dp"
@@ -40,13 +41,13 @@
 
     <LinearLayout
         android:id="@+id/lejout"
-        android:layout_width="395dp"
+        android:layout_width="0dp"
         android:layout_height="400dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
