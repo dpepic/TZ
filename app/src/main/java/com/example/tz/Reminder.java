@@ -60,9 +60,12 @@ public class Reminder extends AppCompatActivity
                         if (!b)
                         {
                             String rep = red.split(";")[4];
+                            Log.wtf("asd", red);
+                            Log.wtf("asd", rep.split("\\+")[1]);
+                            WorkManager.getInstance().cancelWorkById(UUID.fromString(rep.split("\\+")[1]));
                             RemWorker.tekst.remove(rep.split("\\+")[1]);
+                            Log.wtf("id", rep);
                             red = red.replace(rep, "id+0+id");
-                            WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
                         } else
                         {
                             GregorianCalendar now = new GregorianCalendar();
@@ -77,13 +80,13 @@ public class Reminder extends AppCompatActivity
 
                             if (alarm.after(now))
                             {
+                                RemWorker.id = r.nextInt(100000000) + 1;
                                 OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(RemWorker.class)
                                         .setInitialDelay(1, TimeUnit.MINUTES)
                                         .build();
 
-                                RemWorker.id = r.nextInt(100000000 + 1);
-                                WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
-                                red = red.replace("id+0+id", "id+" + work.getId() + "+id");
+                                WorkManager.getInstance().enqueueUniqueWork(work.getId().toString(), ExistingWorkPolicy.REPLACE, work);
+                                red = red.replace("id+0+id", "id+" + work.getId().toString() + "+id");
                                 String[] txt = {red.split(";")[2], red.split(";")[3]};
                                 RemWorker.tekst.put(work.getId(), txt);
                             }
@@ -105,8 +108,7 @@ public class Reminder extends AppCompatActivity
                         if (!rep.split(";")[4].equals("id+0+id"))
                         {
                             Log.wtf("asd", "brisem...");
-                            WorkManager.getInstance().cancelAllWorkByTag(rep.split("\\+")[1]);
-                           // WorkManager.getInstance().cancelWorkById();
+                            WorkManager.getInstance().cancelWorkById(UUID.fromString(rep.split("\\+")[1]));
                             Log.wtf("asd", rep.split("\\+")[1]);
                             String replace = rep.split(";")[4];
                             RemWorker.tekst.remove(rep.split("\\+")[1]);

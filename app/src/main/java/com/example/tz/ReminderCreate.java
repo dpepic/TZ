@@ -18,6 +18,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ReminderCreate extends AppCompatActivity {
@@ -49,28 +50,27 @@ public class ReminderCreate extends AppCompatActivity {
 
         GregorianCalendar selected = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(),
                 vreme / 60, vreme % 60);
-        String idRem = "0";
 
         GregorianCalendar today = new GregorianCalendar();
 
         int daniRazlike = selected.get(GregorianCalendar.DAY_OF_YEAR) - today.get(GregorianCalendar.DAY_OF_YEAR);
         int minutRazlike = this.vreme - (today.get(GregorianCalendar.HOUR_OF_DAY) * 60 + today.get(GregorianCalendar.MINUTE));
-
+        String ajDi = "";
         long razlikaMin = daniRazlike * 24 * 60 + minutRazlike;
-
         if (ch.isChecked() && selected.after(today)) {
             OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(RemWorker.class)
                     .setInitialDelay(1, TimeUnit.MINUTES)
                     .build();
-            WorkManager.getInstance().enqueueUniqueWork(String.valueOf(work.getId()), ExistingWorkPolicy.REPLACE, work);
-            idRem = work.getId().toString();
+
+            WorkManager.getInstance().enqueueUniqueWork(work.getId().toString(), ExistingWorkPolicy.REPLACE, work);
             String[] arr = {et1.getText().toString(), et2.getText().toString()};
             RemWorker.tekst.put(work.getId(), arr);
+            ajDi = work.getId().toString();
         }
 
         String out = selected.get(GregorianCalendar.YEAR) + "--" + selected.get(GregorianCalendar.MONTH) + "--" +
-                selected.get(GregorianCalendar.DAY_OF_MONTH) + "--" + vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText() + ";" + "id+" + idRem + "+id";
-
+                selected.get(GregorianCalendar.DAY_OF_MONTH) + "--" + vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText() + ";" + "id+" + ajDi + "+id";
+    Log.wtf("asd", out);
         try {
             FileOutputStream fOut = openFileOutput("reminders.csv",
                     MODE_APPEND);
