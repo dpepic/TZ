@@ -138,20 +138,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="230dp"
-        android:text="------------------"
-        android:textColor="@color/colorAccent"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/reminderBut"
@@ -166,5 +152,46 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHB"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVL"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVR"
+        app:layout_constraintTop_toTopOf="@id/guidelineHT"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintVertical_bias="0.51"
+        app:srcCompat="@drawable/linel" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
