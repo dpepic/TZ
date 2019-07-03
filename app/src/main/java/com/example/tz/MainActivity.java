@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(dropDown);
 
-            popupWindow.setHeight(350);
+            popupWindow.setHeight(550);
         }
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) { }
 
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
+                adapterView.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 TimeZone tz = TimeZone.getDefault();
                 offsetThumb = off[i] - (int)TimeUnit.MINUTES.convert(tz.getRawOffset(), TimeUnit.MILLISECONDS);
                 CircularSeekBar cs1 = findViewById(R.id.cs1);
