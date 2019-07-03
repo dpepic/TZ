@@ -49,16 +49,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginLeft="110dp"
-        android:layout_marginTop="190dp"
         android:text="TextView"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/imageView"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVL"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVR"
+        app:layout_constraintHorizontal_bias="0.51"
+         />
 
     <me.tankery.lib.circularseekbar.CircularSeekBar
         android:id="@+id/cs1"
@@ -127,16 +125,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="270dp"
         android:text="TextView"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVL"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVR"
+        app:layout_constraintHorizontal_bias="0.51" />
 
 
     <Button
@@ -156,8 +151,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="104dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toTopOf="@id/guidelineHB"
         app:layout_constraintLeft_toRightOf="@id/guidelineVL"
         app:layout_constraintRight_toLeftOf="@id/guidelineVR"
