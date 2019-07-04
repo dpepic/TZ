@@ -44,7 +44,7 @@ public class ReminderCreate extends AppCompatActivity {
     public void snimi(View but) {
         EditText et1 = findViewById(R.id.naslov);
         EditText et2 = findViewById(R.id.opis);
-        CheckBox ch = findViewById(R.id.alarm);
+
 
         DatePicker dp = findViewById(R.id.datePicker);
 
@@ -55,10 +55,10 @@ public class ReminderCreate extends AppCompatActivity {
 
         int daniRazlike = selected.get(GregorianCalendar.DAY_OF_YEAR) - today.get(GregorianCalendar.DAY_OF_YEAR);
         int minutRazlike = this.vreme - (today.get(GregorianCalendar.HOUR_OF_DAY) * 60 + today.get(GregorianCalendar.MINUTE));
-        String ajDi = "";
+        String ajDi = "0";
         long razlikaMin = daniRazlike * 24 * 60 + minutRazlike;
-        if (ch.isChecked() && selected.after(today)) {
-            OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(RemWorker.class)
+
+        OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(RemWorker.class)
                     .setInitialDelay(1, TimeUnit.MINUTES)
                     .build();
 
@@ -66,10 +66,10 @@ public class ReminderCreate extends AppCompatActivity {
             String[] arr = {et1.getText().toString(), et2.getText().toString()};
             RemWorker.tekst.put(work.getId(), arr);
             ajDi = work.getId().toString();
-        }
+
 
         String out = selected.get(GregorianCalendar.YEAR) + "--" + selected.get(GregorianCalendar.MONTH) + "--" +
-                selected.get(GregorianCalendar.DAY_OF_MONTH) + "--" + vreme + ";" + ch.isChecked() + ";" + et1.getText() + ";" + et2.getText() + ";" + "id+" + ajDi + "+id";
+                selected.get(GregorianCalendar.DAY_OF_MONTH) + "--" + vreme + ";true;" + et1.getText() + ";" + et2.getText() + ";" + "id+" + ajDi + "+id";
     Log.wtf("asd", out);
         try {
             FileOutputStream fOut = openFileOutput("reminders.csv",

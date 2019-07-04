@@ -60,13 +60,9 @@
 
     <me.tankery.lib.circularseekbar.CircularSeekBar
         android:id="@+id/cs1"
-        android:layout_width="359dp"
-        android:layout_height="451dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="100dp"
         app:cs_circle_color="@color/colorAccent"
         app:cs_circle_progress_color="@color/colorAccent"
         app:cs_circle_stroke_width="4dp"
@@ -78,19 +74,16 @@
         app:cs_pointer_halo_border_width="0dp"
         app:cs_pointer_halo_width="0dp"
         app:cs_pointer_stroke_width="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineHT"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVL"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVR"
+         />
 
     <me.tankery.lib.circularseekbar.CircularSeekBar
         android:id="@+id/cs2"
-        android:layout_width="359dp"
-        android:layout_height="451dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="100dp"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -104,9 +97,9 @@
         app:cs_pointer_halo_border_width="0dp"
         app:cs_pointer_halo_width="0dp"
         app:cs_pointer_stroke_width="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineHT"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVL"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVR" />
 
     <Spinner
         android:id="@+id/TZdd"
@@ -157,7 +150,7 @@
         app:layout_constraintRight_toLeftOf="@id/guidelineVR"
         app:layout_constraintTop_toTopOf="@id/guidelineHT"
         app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintVertical_bias="0.51"
+        app:layout_constraintVertical_bias="0.40"
         app:srcCompat="@drawable/linel" />
 
     <androidx.constraintlayout.widget.Guideline
