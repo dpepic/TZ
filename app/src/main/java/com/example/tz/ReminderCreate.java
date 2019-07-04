@@ -4,10 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-
+import android.widget.PopupMenu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -21,7 +22,7 @@ import java.util.GregorianCalendar;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class ReminderCreate extends AppCompatActivity {
+public class ReminderCreate extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
     int vreme;
 
@@ -31,8 +32,7 @@ public class ReminderCreate extends AppCompatActivity {
         setContentView(R.layout.activity_reminder_create);
 
         vreme = getIntent().getIntExtra("vreme", 0);
-        TextView tv = findViewById(R.id.vreme);
-        tv.setText(vreme / 60 + " : " + (vreme % 60 == 0 ? "00" : vreme % 60));
+
     }
 
     public void nazad(View but) {
@@ -87,5 +87,34 @@ public class ReminderCreate extends AppCompatActivity {
 
         Intent rem = new Intent(this, Reminder.class);
         startActivity(rem);
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.popup_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.item1:
+                if (!this.getClass().equals(MainActivity.class)) {
+                    Intent drugaAktivnost = new Intent(this, MainActivity.class);
+                    startActivity(drugaAktivnost);
+                }
+                return true;
+
+            case R.id.item2:
+                if (!this.getClass().equals(Reminder.class)) {
+                    Intent trecaAktivnost = new Intent(this, Reminder.class);
+                    startActivity(trecaAktivnost);
+                }
+                return true;
+        }
+        return false;
     }
 }

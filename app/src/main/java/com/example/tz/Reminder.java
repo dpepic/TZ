@@ -7,10 +7,13 @@ import androidx.work.WorkManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -23,7 +26,7 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
-public class Reminder extends AppCompatActivity
+public class Reminder extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener
 {
     boolean promena = false;
     Vector<String> rem = new Vector<String>();
@@ -47,6 +50,7 @@ public class Reminder extends AppCompatActivity
                 rem.add(br.readLine());
                 String[] chk = rem.lastElement().split(";");
                 CheckBox cb = new CheckBox(this);
+                cb.setTextColor(getResources().getColor(R.color.white));
                 cb.setText(chk[2] + " --- " + chk[3]);
                 cb.setChecked(chk[1].equals("true") ? true:false);
                 cb.setLongClickable(true);
@@ -156,5 +160,34 @@ public class Reminder extends AppCompatActivity
         Intent nazad = new Intent(Reminder.this, MainActivity.class);
         nazad.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityIfNeeded(nazad, 0);
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.popup_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.item1:
+                if (!this.getClass().equals(MainActivity.class)) {
+                    Intent drugaAktivnost = new Intent(this, MainActivity.class);
+                    startActivity(drugaAktivnost);
+                }
+                return true;
+
+            case R.id.item2:
+                if (!this.getClass().equals(Reminder.class)) {
+                    Intent trecaAktivnost = new Intent(this, Reminder.class);
+                    startActivity(trecaAktivnost);
+                }
+                return true;
+        }
+        return false;
     }
 }
