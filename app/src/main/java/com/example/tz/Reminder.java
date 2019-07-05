@@ -51,7 +51,9 @@ public class Reminder extends AppCompatActivity implements PopupMenu.OnMenuItemC
                 String[] chk = rem.lastElement().split(";");
                 CheckBox cb = new CheckBox(this);
                 cb.setTextColor(getResources().getColor(R.color.white));
-                cb.setText(chk[2] + " --- " + chk[3]);
+                cb.setText(chk[2]);
+                if (!chk[3].equals(""))
+                     cb.setText(cb.getText() + " --- " + chk[3]);
                 cb.setChecked(chk[1].equals("true") ? true:false);
                 cb.setLongClickable(true);
                 cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
